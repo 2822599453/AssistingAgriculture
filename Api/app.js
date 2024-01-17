@@ -3,9 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const jwt = require('./utils/jwt');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// 跨域
+var cors = require('cors');
+
+var userRouter = require('./routes/admin/userRouter');
+var articleRouter = require('./routes/admin/articleRouter');
 
 var app = express();
 
@@ -20,16 +24,47 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use(cors());
+// token校验
+// app.use((req, res, next) => {
+//   console.log('req', req.headers['authorization']);
+//   if (req.url === '/web/login') {
+//     next();
+//     return;
+//   }
+//   const token = req.headers['authorization'];
+//   if (token) {
+//     const payload = jwt.verify(token);
+//     if (payload) {
+//       const newToken = jwt.generate(
+//         {
+//           id: payload.id,
+//           username: payload.username
+//         },
+//         '1d'
+//       );
+//       res.header('Authoization', newToken);
+//       next();
+//     } else {
+//       res.status(401).send({
+//         code: -1,
+//         message: 'token过期了'
+//       });
+//     }
+//   }
+  
+// });
+
+app.use('/web', userRouter);
+app.use('/web', articleRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

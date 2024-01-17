@@ -9,8 +9,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-const router = useRouter();
-const route = useRoute();
+
 </script>
 
 <style scoped></style>

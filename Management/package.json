@@ -9,7 +9,6 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
   "dependencies": {
@@ -30,7 +29,6 @@
     "@vue/eslint-config-prettier": "^8.0.0",
     "eslint": "^8.49.0",
     "eslint-plugin-vue": "^9.17.0",
-    "husky": "^8.0.0",
     "lint-staged": "^15.2.0",
     "pinia-plugin-persistedstate": "^3.2.1",
     "prettier": "^3.0.3",

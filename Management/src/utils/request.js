@@ -2,8 +2,9 @@ import axios from 'axios'
 import { useUserStore } from '@/stores'
 import { ElMessage } from 'element-plus'
 import router from '@/router'
-
-const baseURL = 'http://big-event-vue-api-t.itheima.net'
+// https://fe-bigevent-web.itheima.net/login 在线地址
+// const baseURL = 'http://big-event-vue-api-t.itheima.net'
+const baseURL = 'http://127.0.0.1:3000/web'
 
 const instance = axios.create({
   // TODO 1. 基础地址，超时时间
@@ -36,7 +37,7 @@ instance.interceptors.response.use(
   (err) => {
     // TODO 5. 处理401错误
     if(err.response?.status == 401) {
-      router.push('/login')
+      router.push('/login') 
     }
     ElMessage.error(err.response?.data.message || '服务异常')
     return Promise.reject(err)

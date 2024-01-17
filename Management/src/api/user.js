@@ -1,24 +1,25 @@
-import request from '@/utils/request'
+import request from '@/utils/request';
 
-// 注册接口
-export const userRegisterService = ({ username, password, repassword }) =>
-  request.post('/api/reg', { username, password, repassword })
-
-// 登录接口
+// // 登录
 export const userLoginService = ({ username, password }) =>
-  request.post('/api/login', { username, password })
-
-// 获取用户基本信息
-export const userGetInfoService = () => request.get('/my/userinfo')
-
-// 更新用户基本信息
-export const userUpdateInfoService = ({ id, nickname, email }) =>
-  request.put('/my/userinfo', { id, nickname, email })
+  request.post('/login', { username, password });
 
 // 更新用户头像
-export const userUpdateAvatarService = (avatar) =>
-  request.patch('/my/update/avatar', { avatar })
-
+export const updateUserAvatarService = (data) =>
+  request.post('/user/update/avatar', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+// 获取用户基本信息
+export const getUserInfoService = () => request.get('/user/userinfo');
+// 获取用户列表
+export const getUserListService = (data) => request.post('/users', data);
+// 删除用户
+export const deleteUserService = (id) => request.delete('/user/delete', { params: { id } });
+// 更新用户信息
+export const updateUserService = (data) => request.post('user/update', data)
 // 更新用户密码
-export const userUpdatePasswordService = ({ old_pwd, new_pwd, re_pwd }) =>
-  request.patch('/my/updatepwd', { old_pwd, new_pwd, re_pwd })
+export const updatePasswordService = (data) => request.post('user/update/password', data)
+// 添加用户
+export const addUserService = (data) => request.post('/user/add', data)

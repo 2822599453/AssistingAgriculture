@@ -1,11 +1,35 @@
 <template>
-  <el-dialog v-model="dialogVisible" :title="formModel.id ? '编辑分类' : '添加分类'" width="30%">
-    <el-form ref="formRef" :model="formModel" :rules="rules" label-width="100px" style="padding-right: 30px">
-      <el-form-item label="分类名称" prop="cate_name">
-        <el-input v-model="formModel.cate_name" placeholder="请输入分类名称"></el-input>
+  <el-dialog
+    v-model="dialogVisible"
+    @close="onClose"
+    :title="formData.id ? '编辑分类' : '添加分类'"
+    width="30%"
+  >
+    <el-form
+      ref="formRef"
+      :model="formData"
+      :rules="rules"
+      label-width="100px"
+      style="padding-right: 30px"
+    >
+      <el-form-item label="一级分类" prop="parent_name">
+        <el-select
+          v-model="formData.parent_name"
+          @change="onChange"
+          class="m-2"
+          style="width: 100%"
+        >
+          <el-option
+            v-for="item in firstCategory"
+            :key="item.id"
+            :label="item.level_name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="分类别名" prop="cate_alias">
-        <el-input v-model="formModel.cate_alias" placeholder="请输入分类别名"></el-input>
+
+      <el-form-item label="二级分类" prop="level_name">
+        <el-input v-model="formData.level_name" placeholder="请输入分类名称"></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -18,59 +42,71 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { artEditChannelService, artAddChannelService } from '@/api/article.js'
-const dialogVisible = ref(false)
-const formRef = ref()
-const formModel = ref({
-  cate_name: '',
-  cate_alias: ''
-})
+import { ref } from 'vue';
+import { artEditChannelService, artAddChannelService } from '@/api/article.js';
+const dialogVisible = ref(false);
+const formRef = ref();
+const firstCategory = ref([]);
+const formData = ref({
+  parent_id: '',
+  parent_name: '',
+  level_name: ''
+});
 const rules = {
-  cate_name: [
-    { required: true, message: '请输入分类名称', trigger: 'blur' },
-    {
-      pattern: /^\S{1,10}$/,
-      message: '分类名必须是 1-10 位的非空字符',
-      trigger: 'blur'
-    }
-  ],
+  // firstCategory: [{ required: true, message: '请输入分类名称', trigger: 'blur' }],
   cate_alias: [
-    { required: true, message: '请输入分类别名', trigger: 'blur' },
-    {
-      pattern: /^[a-zA-Z0-9]{1,15}$/,
-      message: '分类名必须是 1-15 位的字母或数字',
-      trigger: 'blur'
-    }
+    { required: true, message: '请输入分类名称', trigger: 'blur' },
+    { min: 1, max: 10, message: '必须是 3-10位 的字符', trigger: 'blur' }
   ]
-}
+};
 
-const emit = defineEmits(['success'])
+/* 选择一级分类 */
+const onChange = (value, label) => {
+  formData.value.parent_id = value
+  console.log(value);
+};
+
+const emit = defineEmits(['success']);
+/* 提交 */
 const onSubmit = async () => {
-  await formRef.value.validate()
-  const isEdit = formModel.value.id
+  await formRef.value.validate();
+  const isEdit = formData.value.id;
   if (isEdit) {
-    await artEditChannelService(formModel.value)
-    ElMessage.success('编辑成功')
+    console.log(formData.value);
+    // await artEditChannelService(formData.value);
+    ElMessage.success('编辑成功');
   } else {
-    await artAddChannelService(formModel.value)
-    ElMessage.success('添加成功')
+    console.log(formData.value);
+    // await artAddChannelService(formData.value);
+    ElMessage.success('添加成功');
   }
-  dialogVisible.value = false
-  emit('success')
-}
+  // dialogVisible.value = false;
+  // emit('success');
+};
+/* 关闭 */
+const onClose = () => {
+  formRef.value.resetFields();
+};
 
 // 组件对外暴露一个方法 open，基于open传来的参数，区分添加还是编辑
 // open({})  => 表单无需渲染，说明是添加
 // open({ id, cate_name, ... })  => 表单需要渲染，说明是编辑
 // open调用后，可以打开弹窗
-const open = (row) => {
-  dialogVisible.value = true
-  formModel.value = { ...row } // 添加 → 重置了表单内容，编辑 → 存储了需要回显的数据
-}
+const open = (row, options) => {
+  console.log(row)
+  dialogVisible.value = true;
+  if (Object.keys(row).length === 0) {
+    formData.value = {
+      parent_name: ''
+    };
+  } else {
+    formData.value = { ...row }; // 添加 → 重置了表单内容，编辑 → 存储了需要回显的数据
+  }
+  firstCategory.value = options;
+};
 
 // 向外暴露方法
 defineExpose({
   open
-})
+});
 </script>

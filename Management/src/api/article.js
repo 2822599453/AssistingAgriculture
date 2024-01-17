@@ -32,3 +32,9 @@ export const artEditService = (data) => request.put('/my/article/info', data)
 
 // 文章：删除文章接口
 export const artDelService = (id) => request.delete('/my/article/info', { params: { id } })
+
+
+// 获取文章分类
+export const getCategoryListService = (data) => request.post('/article/category', data)
+// 获取一级分类
+export const getFirstCategoryService = () => request.get('/article/category/first')

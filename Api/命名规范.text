@@ -1,0 +1,21 @@
+Service 接口命名
+
+create
+delete
+update
+query
+findById
+findByXXX
+findXXXList
+
+Dao 接口命名
+
+insert
+delete
+update
+select
+batchInsert
+selectOne
+selectById
+batchUpdate
+deleteById

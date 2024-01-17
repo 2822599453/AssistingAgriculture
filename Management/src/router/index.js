@@ -22,6 +22,10 @@ const router = createRouter({
           component: () => import('@/views/article/ArticleChannel.vue')
         },
         {
+          path: '/user/manage',
+          component: () => import('@/views/user/UserManagement.vue')
+        },
+        {
           path: '/user/profile',
           component: () => import('@/views/user/UserProfile.vue')
         },
@@ -32,6 +36,10 @@ const router = createRouter({
         {
           path: '/user/password',
           component: () => import('@/views/user/UserPassword.vue')
+        },
+        {
+          path: '/article/category',
+          component: () => import('@/views/article/ArticleCategory.vue')
         }
       ]
     }
@@ -42,7 +50,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   // 无token且不是登录页则拦截
   const userStore = useUserStore()
-  // if(!userStore.token && to.path !== '/login') return '/login'
+  if(!userStore.token && to.path !== '/login') return '/login'
   return true
 })
 

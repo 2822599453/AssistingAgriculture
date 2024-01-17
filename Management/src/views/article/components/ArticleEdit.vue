@@ -1,3 +1,54 @@
+<template>
+  <el-drawer
+    v-model="visibleDrawer"
+    :title="formModel.id ? '编辑文章' : '添加文章'"
+    direction="rtl"
+    size="50%"
+  >
+    <!-- 发表文章表单 -->
+    <el-form :model="formModel" ref="formRef" label-width="100px">
+      <el-form-item label="文章标题" prop="title">
+        <el-input v-model="formModel.title" placeholder="请输入标题"></el-input>
+      </el-form-item>
+      <el-form-item label="文章分类" prop="cate_id">
+        <channel-select
+          v-model="formModel.cate_id"
+          width="100%"
+        ></channel-select>
+      </el-form-item>
+      <el-form-item label="文章封面" prop="cover_img">
+        <!-- 此处需要关闭 element-plus 的自动上传，不需要配置 action 等参数
+             只需要做前端的本地预览图片即可，无需在提交前上传图标
+             语法：URL.createObjectURL(...) 创建本地预览的地址，来预览
+        -->
+        <el-upload
+          class="avatar-uploader"
+          :show-file-list="false"
+          :auto-upload="false"
+          :on-change="onSelectFile"
+        >
+          <img v-if="imgUrl" :src="imgUrl" class="avatar" />
+          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="文章内容" prop="content">
+        <div class="editor">
+          <quill-editor
+            ref="editorRef"
+            v-model:content="formModel.content"
+            content-type="html"
+            theme="snow"
+          ></quill-editor>
+        </div>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="onPublish('已发布')" type="primary">发布</el-button>
+        <el-button @click="onPublish('草稿')" type="info">草稿</el-button>
+      </el-form-item>
+    </el-form>
+  </el-drawer>
+</template>
+
 <script setup>
 import { ref } from 'vue'
 import ChannelSelect from './ChannelSelect.vue'
@@ -121,56 +172,7 @@ defineExpose({
 })
 </script>
 
-<template>
-  <el-drawer
-    v-model="visibleDrawer"
-    :title="formModel.id ? '编辑文章' : '添加文章'"
-    direction="rtl"
-    size="50%"
-  >
-    <!-- 发表文章表单 -->
-    <el-form :model="formModel" ref="formRef" label-width="100px">
-      <el-form-item label="文章标题" prop="title">
-        <el-input v-model="formModel.title" placeholder="请输入标题"></el-input>
-      </el-form-item>
-      <el-form-item label="文章分类" prop="cate_id">
-        <channel-select
-          v-model="formModel.cate_id"
-          width="100%"
-        ></channel-select>
-      </el-form-item>
-      <el-form-item label="文章封面" prop="cover_img">
-        <!-- 此处需要关闭 element-plus 的自动上传，不需要配置 action 等参数
-             只需要做前端的本地预览图片即可，无需在提交前上传图标
-             语法：URL.createObjectURL(...) 创建本地预览的地址，来预览
-        -->
-        <el-upload
-          class="avatar-uploader"
-          :show-file-list="false"
-          :auto-upload="false"
-          :on-change="onSelectFile"
-        >
-          <img v-if="imgUrl" :src="imgUrl" class="avatar" />
-          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="文章内容" prop="content">
-        <div class="editor">
-          <quill-editor
-            ref="editorRef"
-            v-model:content="formModel.content"
-            content-type="html"
-            theme="snow"
-          ></quill-editor>
-        </div>
-      </el-form-item>
-      <el-form-item>
-        <el-button @click="onPublish('已发布')" type="primary">发布</el-button>
-        <el-button @click="onPublish('草稿')" type="info">草稿</el-button>
-      </el-form-item>
-    </el-form>
-  </el-drawer>
-</template>
+
 
 <style lang="scss" scoped>
 .avatar-uploader {

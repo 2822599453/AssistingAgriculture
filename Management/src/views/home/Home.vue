@@ -3,13 +3,22 @@
     <el-aside width="200px">
       <div class="el-aside__logo"></div>
       <el-menu :default-active="$route.path" router unique-opened>
-        <el-menu-item index="/article/channel">
+        <!-- <el-menu-item index="/article/channel">
           <el-icon> <Management /> </el-icon>
-          <span>文章分类</span>
+          <span>文章分类 no</span>
         </el-menu-item>
+
         <el-menu-item index="/article/manage">
           <el-icon> <Promotion /> </el-icon>
           <span>文章管理</span>
+        </el-menu-item> -->
+        <el-menu-item index="/user/manage">
+          <el-icon> <Management /> </el-icon>
+          <span>用户管理</span>
+        </el-menu-item>
+        <el-menu-item index="/article/category">
+          <el-icon> <Management /> </el-icon>
+          <span>文章分类</span>
         </el-menu-item>
         <el-sub-menu index="/user">
           <template #title>
@@ -156,7 +165,7 @@
         </div>
         <el-dropdown placement="bottom-end" @command="handleCommand">
           <span class="el-dropdown__box">
-            <el-avatar :src="userStore.userInfo.user_pic || avatar" />
+            <el-avatar :src="userStore.userInfo.avatar || avatar" />
             <el-icon> <CaretBottom /> </el-icon>
           </span>
           <template #dropdown>
@@ -170,7 +179,11 @@
         </el-dropdown>
       </el-header>
       <el-main>
-        <router-view></router-view>
+        <router-view v-slot="{ Component }">
+          <Transition name="fade">
+            <component :is="Component" />
+          </Transition>
+        </router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -185,18 +198,18 @@ import {
   EditPen,
   SwitchButton,
   CaretBottom
-} from '@element-plus/icons-vue'
-import avatar from '@/assets/default.png'
-import { ref, onMounted } from 'vue'
-import { useUserStore } from '@/stores'
-import router from '@/router'
+} from '@element-plus/icons-vue';
+import avatar from '@/assets/default.png';
+import { ref, onMounted } from 'vue';
+import { useUserStore } from '@/stores';
+import router from '@/router';
 
-const userStore = useUserStore()
+const userStore = useUserStore();
 
 // 获取用户数据
 onMounted(async () => {
-  userStore.getUserInfo()
-})
+  userStore.getUserInfo();
+});
 
 // 下拉菜单
 const handleCommand = (key) => {
@@ -207,22 +220,34 @@ const handleCommand = (key) => {
       confirmButtonText: '确认',
       cancelButtonText: '取消'
     }).then(() => {
-      // router.push('/login')
-      ElMessage.success('退出登录')
-    })
+      router.push('/login');
+      ElMessage.success('退出登录');
+    });
   } else {
-    router.push(`/user/${key}`)
+    router.push(`/user/${key}`);
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
 .layout-container {
   height: 100vh;
-
+  .fade-leave-active {
+    transition: all .5s;
+  }
+  .fade-enter-active {
+    transition: all .5s ease .5s;
+  }
+  .fade-enter-from {
+    transform: translate(-30px);
+    opacity: 0;
+  }
+  .fade-leave-to {
+    transform: translate(30px);
+    opacity: 0;
+  }
   .el-aside {
     background-color: #fff;
-
     &__logo {
       height: 120px;
       background: url('@/assets/logo.png') no-repeat center / 120px auto;
@@ -230,7 +255,7 @@ const handleCommand = (key) => {
     .el-menu {
       border-right: none;
     }
-    ::v-deep .el-sub-menu .el-sub-menu__icon-arrow {
+    :deep(.el-sub-menu .el-sub-menu__icon-arrow) {
       display: none;
     }
   }

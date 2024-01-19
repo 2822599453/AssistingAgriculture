@@ -9,6 +9,7 @@ const jwt = require('./utils/jwt');
 var cors = require('cors');
 
 var userRouter = require('./routes/admin/userRouter');
+var categoryRouter = require('./routes/admin/categoryRouter');
 var articleRouter = require('./routes/admin/articleRouter');
 
 var app = express();
@@ -56,6 +57,7 @@ app.use(cors());
 // });
 
 app.use('/web', userRouter);
+app.use('/web', categoryRouter);
 app.use('/web', articleRouter);
 
 // catch 404 and forward to error handler

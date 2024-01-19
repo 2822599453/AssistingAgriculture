@@ -1,7 +1,7 @@
 <template>
   <page-container title="用户管理">
     <template #extra>
-      <el-button @click="addUser">添加用户</el-button>
+      <el-button type="primary" @click="addUser">添加用户</el-button>
     </template>
 
     <el-form inline>
@@ -36,7 +36,7 @@
       </el-form-item>
     </el-form>
 
-    <el-table v-loading="loading" :data="userList" style="width: 100%" max-height="400">
+    <el-table v-loading="loading" :data="userList" style="width: 100%" height="400">
       <el-table-column type="index" :index="indexShow" label="序号" width="100"></el-table-column>
       <el-table-column prop="username" label="用户名"></el-table-column>
       <el-table-column prop="fullname" label="姓名"></el-table-column>

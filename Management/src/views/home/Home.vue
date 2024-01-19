@@ -44,6 +44,10 @@
             <span>重置密码</span>
           </el-menu-item>
         </el-sub-menu>
+        <el-menu-item index="/three-agriculture">
+          <el-icon> <Management /> </el-icon>
+          <span>三农服务</span>
+        </el-menu-item>
         <!-- <el-menu-item>
           <el-icon> <Management /> </el-icon>
           <span>首页</span>
@@ -134,28 +138,7 @@
             <span>历史变迁</span>
           </el-menu-item>
         </el-sub-menu>
-        <el-sub-menu index="/fff">
-          <template #title>
-            <el-icon> <UserFilled /> </el-icon>
-            <span>三农服务</span>
-          </template>
-          <el-menu-item index="/user/profile">
-            <el-icon> <User /> </el-icon>
-            <span>农资市场价格</span>
-          </el-menu-item>
-          <el-menu-item index="/user/avatar">
-            <el-icon> <Crop /> </el-icon>
-            <span>农业科技服务</span>
-          </el-menu-item>
-          <el-menu-item index="/user/avatar">
-            <el-icon> <Crop /> </el-icon>
-            <span>农产品供求</span>
-          </el-menu-item>
-          <el-menu-item index="/user/avatar">
-            <el-icon> <Crop /> </el-icon>
-            <span>城市规划</span>
-          </el-menu-item>
-        </el-sub-menu> -->
+         -->
       </el-menu>
     </el-aside>
     <el-container>

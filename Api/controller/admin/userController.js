@@ -7,7 +7,7 @@ const userController = {
     // console.log(req.body)
     const result = await userService.find(req.body);
     if (result.length === 0) {
-      res.send({
+      res.status(404).send({
         code: -1,
         message: '用户名密码不匹配'
       });
@@ -26,7 +26,7 @@ const userController = {
   addUser: async (req, res) => {
     const result = await userService.add(req.body);
     if (result.length === 0) {
-      res.send({
+      res.status(400).send({
         code: -1,
         message: '该用户已经存在'
       });
@@ -41,7 +41,7 @@ const userController = {
   updatePassword: async (req, res) => {
     const hasAccount = await userService.find(req.body);
     if (hasAccount.length === 0) {
-      return res.send({
+      return res.status(400).send({
         code: -1,
         message: '密码不正确'
       });
@@ -59,7 +59,7 @@ const userController = {
     // console.log(req.file)
     const result = await userService.updateAvatar(req.body, req.file);
     if (result.length === 0) {
-      return res.send({
+      return res.status(400).send({
         code: '-1',
         message: '头像修改失败，请联系管理员'
       });
@@ -73,7 +73,7 @@ const userController = {
   updateUser: async (req, res) => {
     const hasUser = await userService.findByUsername(req.body);
     if (hasUser.length === 0) {
-      return res.send({
+      return res.status(403).send({
         code: -1,
         message: '找不到该用户'
       });
@@ -104,23 +104,23 @@ const userController = {
         });
       }
     }
-    res.send({
+    res.status(404).send({
       code: -1,
       message: '找不到该用户'
     });
   },
   // 获取所有用户
   getUserList: async (req, res) => {
-    const result = await userService.findAll(req.body);
-    if (result.length === 0) {
+    const result1 = await userService.findAll(req.body);
+    if (result1.length === 0) {
       return res.send({
         code: -1,
         message: '出错了，请联系管理员'
       });
     }
-    const flag = 'all'
-    const allUser = await userService.findAll(req.body,flag)
-    const userList = result[Object.keys(req.body).length-2]
+    const result2 = await userService.findAll({ ...req.body, pagenum: 1, pagesize: 1000 });
+    const userList = result1[Object.keys(req.body).length - 2];
+    const allUser = result2[Object.keys(req.body).length - 2];
     res.send({
       data: userList,
       code: 0,
@@ -132,7 +132,7 @@ const userController = {
   deleteUser: async (req, res) => {
     const result = await userService.remove(req.query);
     if (result.length === 0) {
-      return res.send({
+      return res.status(400).send({
         code: -1,
         message: '删除失败，请联系管理员'
       });
@@ -144,3 +144,5 @@ const userController = {
   }
 };
 module.exports = userController;
+
+

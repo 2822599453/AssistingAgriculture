@@ -1,7 +1,7 @@
 <template>
   <page-container title="文章分类">
     <template #extra>
-      <el-button @click="addCategory">添加分类</el-button>
+      <el-button type="primary" @click="addCategory">添加分类</el-button>
     </template>
 
     <el-form inline>
@@ -16,7 +16,7 @@
       </el-form-item>
     </el-form>
 
-    <el-table v-loading="loading" :data="categoryList" style="width: 100%; height: 400px">
+    <el-table v-loading="loading" :data="categoryList" style="width: 100%" height="400">
       <el-table-column type="index" :index="indexShow" label="序号" width="100"></el-table-column>
       <el-table-column prop="parent_name" label="一级分类"></el-table-column>
       <el-table-column prop="level_name" label="二级分类"></el-table-column>
@@ -32,7 +32,7 @@
       </template>
     </el-table>
 
-    <channel-edit ref="dialog" @success="onSuccess"></channel-edit>
+    <category-edit ref="dialog" @success="onSuccess"></category-edit>
     <!-- 分页区域 -->
     <el-pagination
       v-model:current-page="searchValue.pagenum"
@@ -50,9 +50,9 @@
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
-import { getCategoryListService, getFirstCategoryService } from '@/api/article';
+import { getCategoryListService, getFirstCategoryService, deleteCategoryService } from '@/api/article';
 import { Edit, Delete } from '@element-plus/icons-vue';
-import ChannelEdit from './components/ChannelEdit.vue';
+import CategoryEdit from './components/CategoryEdit.vue';
 
 const loading = ref(false);
 const dialog = ref();
@@ -115,9 +115,9 @@ const onDelete = (row) => {
     cancelButtonText: '取消'
   })
     .then(async () => {
-      await deleteUserService(row.id);
+      await deleteCategoryService(row.id);
       ElMessage.success('删除成功');
-      getUserList();
+      getcategoryList();
     })
     .catch(() => {});
 };

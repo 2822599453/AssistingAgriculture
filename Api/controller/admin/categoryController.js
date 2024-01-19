@@ -1,35 +1,17 @@
-const articleService = require('../../service/admin/articleService');
+const categoryService = require('../../service/admin/categoryService');
 
-const articleController = {
-  getArticleList: async (req, res) => {
-    
-    const result1 = await articleService.findAll(req.body);
+const categoryController = {
+  getCategoryList: async (req, res) => {
+    const result1 = await categoryService.findAll(req.body);
     if (result1.length === 0) {
       return res.status(404).send({
         code: -1,
         message: '出错了，请联系管理员'
       });
     }
-    const result2 = await articleService.findAll({...req.body, pagenum: 1, pagesize: 1000})
-    const articleList = result1[Object.keys(req.body).length-2]
-    const allArticle = result2[Object.keys(req.body).length-2]
-    res.send({
-      data: articleList,
-      code: 0,
-      message: '获取文章列表',
-      total: allArticle.length
-    });
-  },
-  getCategoryList: async (req, res) => {
-    const result = await articleService.findAll(req.body);
-    if (result.length === 0) {
-      return res.send({
-        code: -1,
-        message: '出错了，请联系管理员'
-      });
-    }
-    const allCategory = await articleService.findAll(req.body, 'all')
-    const categoryList = result[Object.keys(req.body).length-2]
+    const result2 = await categoryService.findAll({ ...req.body, pagenum: 1, pagesize: 1000 })
+    const categoryList = result1[Object.keys(req.body).length-2]
+    const allCategory = result2[Object.keys(req.body).length-2]
     res.send({
       data: categoryList,
       code: 0,
@@ -39,7 +21,7 @@ const articleController = {
   },
   getSecondCategory: async (req, res) => {
     console.log(req.query)
-    const result = await articleService.find(req.query);
+    const result = await categoryService.find(req.query);
     if (result.length === 0) {
       return res.status(404).send({
         code: -1,
@@ -53,7 +35,7 @@ const articleController = {
     });
   },
   getFirstCategory: async (req, res) => {
-    const result = await articleService.find();
+    const result = await categoryService.find();
     if (result.length === 0) {
       return res.status(404).send({
         code: -1,
@@ -67,7 +49,7 @@ const articleController = {
     });
   },
   updateCategory: async (req, res) => {
-    const result = await articleService.update(req.body);
+    const result = await categoryService.update(req.body);
     if (result.length === 0) {
       return res.status(404).send({
         code: -1,
@@ -80,7 +62,7 @@ const articleController = {
     });
   },
   addCategory: async (req, res) => {
-    const result = await articleService.add(req.body);
+    const result = await categoryService.add(req.body);
     if (result.length === 0) {
       return res.send({
         code: -1,
@@ -93,7 +75,7 @@ const articleController = {
     });
   },
   deleteCategory: async (req, res) => {
-    const result = await articleService.remove(req.query);
+    const result = await categoryService.remove(req.query);
     if (result.length === 0) {
       return res.status(404).send({
         code: -1,
@@ -106,4 +88,4 @@ const articleController = {
     });
   },
 };
-module.exports = articleController;
+module.exports = categoryController;

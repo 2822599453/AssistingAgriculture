@@ -11,16 +11,8 @@ const router = createRouter({
     {
       path: '/',
       component: () => import('@/views/home/Home.vue'),
-      redirect: '/article/manage',
+      redirect: '/user/manage',
       children: [
-        {
-          path: '/article/manage',
-          component: () => import('@/views/article/ArticleManage.vue')
-        },
-        {
-          path: '/article/channel',
-          component: () => import('@/views/article/ArticleChannel.vue')
-        },
         {
           path: '/user/manage',
           component: () => import('@/views/user/UserManagement.vue')
@@ -40,7 +32,23 @@ const router = createRouter({
         {
           path: '/article/category',
           component: () => import('@/views/article/ArticleCategory.vue')
-        }
+        },
+        {
+          path: '/three-agriculture',
+          component: () => import('@/views/three-agriculture/ThreeAgriculture.vue')
+        },
+        {
+          path: '/three-agriculture/market-price',
+          component: () => import('@/views/three-agriculture/MarketPrice.vue')
+        },
+        {
+          path: '/three-agriculture/product-demands',
+          component: () => import('@/views/three-agriculture/ProductDemands.vue')
+        },
+        {
+          path: '/three-agriculture/technology-service',
+          component: () => import('@/views/three-agriculture/TechnologyService.vue')
+        },
       ]
     }
   ]

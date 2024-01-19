@@ -21,13 +21,13 @@
       <el-form-item label="姓名" prop="fullname">
         <el-input v-model="formData.fullname" placeholder="请输入姓名"></el-input>
       </el-form-item>
-      <el-form-item label="角色">
+      <el-form-item label="角色" required>
         <el-radio-group v-model="formData.role" class="ml-4">
           <el-radio label="1">管理员</el-radio>
           <el-radio label="2">普通用户</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="性别">
+      <el-form-item label="性别" required>
         <el-radio-group v-model="formData.gender" class="ml-4">
           <el-radio label="0">男</el-radio>
           <el-radio label="1">女</el-radio>

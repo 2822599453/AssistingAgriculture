@@ -13,20 +13,18 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage: storage });
+/* 文章分类 */
+// articleRouter.post('/article/category/add', articleController.addCategory);
 
-// articleRouter.post('/login', articleController.login);
-// articleRouter.post('/user/add', articleController.addUser);
+// articleRouter.delete('/article/category/delete', articleController.deleteCategory);
 
-// articleRouter.delete('/user/delete', articleController.deleteUser);
+// articleRouter.post('/article/category/update', articleController.updateCategory);
 
-articleRouter.post('/article/category/update', articleController.updateCategory);
-// articleRouter.post('/user/update/password', articleController.updatePassword);
-// articleRouter.post('/user/update/avatar', upload.single('rawFile'), articleController.updateAvatar);
+articleRouter.post('/articles', articleController.getArticleList);
+// articleRouter.get('/article/category/first', articleController.getFirstCategory);
+// articleRouter.get('/article/category/second', articleController.getSecondCategory);
 
-articleRouter.post('/article/category', articleController.getCategoryList);
-articleRouter.get('/article/category/first', articleController.getFirstCategory);
-// articleRouter.post('/users', articleController.getUserList);
-
+/* 文章管理 */
 
 
 module.exports = articleRouter;

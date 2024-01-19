@@ -27,19 +27,13 @@ const userModel = {
     let sql = 'select * from user where username = ?';
     return db(sql, value);
   },
-  queryAll: async (value, flag) => {
-    let sql = '';
-    if (flag) {
-      sql = 'select * from user';
-    } else {
-      sql = `
+  queryAll: async (value) => {
+    let sql = `
         set @fullname = ?;
         set @role = ?;
         set @gender = ?;
         select * from user where (fullname = @fullname or @fullname = '') and (role = @role or @role = '') and (gender = @gender or @gender = '') limit ?,?
       `;
-    }
-
     return db(sql, value);
   }
 };

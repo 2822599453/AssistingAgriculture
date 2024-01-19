@@ -1,0 +1,12 @@
+<template>
+  <div>
+    农资市场价格
+  </div>
+</template>
+
+<script setup>
+import {ref} from 'vue'
+
+</script>
+
+<style lang="scss" scoped></style>

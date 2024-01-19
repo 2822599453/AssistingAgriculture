@@ -1,6 +1,6 @@
 const db = require('../utils/db');
 
-const articleModel = {
+const categoryModel = {
   insert: async (value) => {
     let sql =
       'insert into article_category(level, level_name, parent_id, parent_name) values(?, ?, ?, ?)';
@@ -16,9 +16,9 @@ const articleModel = {
     return db(sql, value);
   },
   query: async (value) => {
-    let sql = ''
+    let sql = '';
     // 有入参查二级分类，无就一级
-    if(value[0]) {
+    if (value[0]) {
       sql = 'select * from article_category where level = 2 and parent_id = ?';
       return db(sql, value);
     } else {
@@ -28,12 +28,11 @@ const articleModel = {
   },
   queryAll: async (value) => {
     let sql = `
-        set @category_id = ?;
-        set @is_publish = ?;
-        select * from article where (category_id = @category_id or @category_id = '') and (is_publish = @is_publish or @is_publish = '') limit ?,?
+        set @parent_id = ?;
+        select * from article_category where (parent_id = @parent_id or @parent_id = '') and (parent_id is not null) limit ?,?
       `;
     return db(sql, value);
   }
 };
 
-module.exports = articleModel;
+module.exports = categoryModel;

@@ -33,9 +33,9 @@ const userService = {
   login: async ({ username, password }) => {
     return userModel.query({ username, password });
   },
-  findAll: async ({ fullname, role, gender, pagenum, pagesize }, flag) => {
+  findAll: async ({ fullname, role, gender, pagenum, pagesize }) => {
     pagenum = (pagenum - 1) * pagesize;
-    return userModel.queryAll([fullname, role, gender, pagenum, pagesize], flag);
+    return userModel.queryAll([fullname, role, gender, pagenum, pagesize]);
   }
 };
 

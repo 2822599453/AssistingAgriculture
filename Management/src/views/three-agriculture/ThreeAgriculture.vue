@@ -88,6 +88,7 @@ const searchValue = ref({
 onMounted(() => {
   // getArticleList()
   getCategory()
+  
 })
 
 const getCategory = async () => {

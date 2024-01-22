@@ -16,6 +16,7 @@
     "@tsparticles/vue3": "^3.0.0",
     "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.6.2",
+    "dayjs": "^1.11.10",
     "element-plus": "^2.4.4",
     "particles.vue3": "^2.12.0",
     "pinia": "^2.1.7",

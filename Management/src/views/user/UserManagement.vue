@@ -6,26 +6,31 @@
 
     <el-form inline>
       <el-form-item label="姓名:">
-        <!-- Vue2 => v-model :value 和 @input 的简写 -->
-        <!-- Vue3 => v-model :modelValue 和 @update:modelValue 的简写 -->
-        <!-- <channel-select v-model="params.cate_id"></channel-select> -->
         <el-input
           v-model="searchValue.fullname"
           class="w-50 m-2"
           placeholder="请输入"
           :prefix-icon="Search"
+          style="width: 190px;"
         />
-        <!-- Vue3 => v-model:cid  :cid 和 @update:cid 的简写 -->
-        <!-- <channel-select v-model:cid="params.cate_id"></channel-select> -->
+      </el-form-item>
+      <el-form-item label="职能部门:">
+        <el-input
+          v-model="searchValue.name"
+          class="w-50 m-2"
+          placeholder="请输入"
+          :prefix-icon="Search"
+          style="width: 190px;"
+        />
       </el-form-item>
       <el-form-item label="角色:">
-        <el-select v-model="searchValue.role">
+        <el-select v-model="searchValue.role" style="width: 190px;">
           <el-option label="管理员" value="1"></el-option>
           <el-option label="普通用户" value="2"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="性别:">
-        <el-select v-model="searchValue.gender">
+        <el-select v-model="searchValue.gender" style="width: 190px;">
           <el-option label="男" value="0"></el-option>
           <el-option label="女" value="1"></el-option>
         </el-select>
@@ -41,20 +46,21 @@
       <el-table-column prop="username" label="用户名"></el-table-column>
       <el-table-column prop="fullname" label="姓名"></el-table-column>
       <el-table-column prop="role" label="角色">
-        <template #default="{ row, $index }">
+        <template #default="{ row }">
           <el-tag :type="row.role === '1' ? '' : 'success'">{{
             row.role === '1' ? '管理员' : '普通用户'
           }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="gender" label="性别">
-        <template #default="{ row, $index }">
+        <template #default="{ row }">
           <el-tag :type="row.gender === '0' ? '' : 'danger'">{{
             row.gender === '0' ? '男' : '女'
           }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="phone" label="电话"></el-table-column>
+      <el-table-column prop="department_name" label="职能部门"></el-table-column>
       <el-table-column label="操作" width="150">
         <!-- row 就是 userList 的一项， $index 下标 -->
         <template #default="{ row, $index }">
@@ -72,7 +78,7 @@
     <el-pagination
       v-model:current-page="searchValue.pagenum"
       v-model:page-size="searchValue.pagesize"
-      :page-sizes="[2, 3, 5, 10]"
+      :page-sizes="[5, 10, 20]"
       :background="true"
       layout="jumper, total, sizes, prev, pager, next"
       :total="total"
@@ -114,6 +120,7 @@ const indexShow = (index) => {
 /* 搜索 */
 const searchValue = reactive({
   gender: '',
+  name: '',
   role: '',
   fullname: '',
   pagenum: 1, // 当前页
@@ -127,6 +134,7 @@ const onReset = () => {
   searchValue.gender = '';
   searchValue.role = '';
   searchValue.fullname = '';
+  searchValue.name = ''
   getUserList();
 };
 // 编辑

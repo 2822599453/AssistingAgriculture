@@ -12,6 +12,10 @@
           <el-icon> <Promotion /> </el-icon>
           <span>文章管理</span>
         </el-menu-item> -->
+        <el-menu-item index="/department">
+          <el-icon> <Management /> </el-icon>
+          <span>职能部门</span>
+        </el-menu-item>
         <el-menu-item index="/user/manage">
           <el-icon> <Management /> </el-icon>
           <span>用户管理</span>
@@ -144,7 +148,7 @@
     <el-container>
       <el-header>
         <div>
-          你好，<strong>{{ userStore.userInfo.nickname || userStore.userInfo.username }}</strong>
+          你好，<strong>{{ userStore.userInfo.fullname || userStore.userInfo.username }}</strong>
         </div>
         <el-dropdown placement="bottom-end" @command="handleCommand">
           <span class="el-dropdown__box">

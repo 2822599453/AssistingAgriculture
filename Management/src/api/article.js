@@ -15,4 +15,6 @@ export const deleteCategoryService = (id) => request.delete('/article/category/d
 
 // 获取文章列表
 export const getArticleListService = (data) => request.post('/articles', data)
+// 新增文章
+export const addArticleService = (data) => request.post('/article/add', data)
 

@@ -1,4 +1,5 @@
 const userModel = require('../../model/userModel');
+const baseUrl = require('../../utils/config')
 
 const userService = {
   add: async ({ username, password, role, gender, phone, fullname }) => {
@@ -17,7 +18,7 @@ const userService = {
     return userModel.update({ password: confirmPassword }, { username });
   },
   updateAvatar: async ({ id }, file) => {
-    const path = `http://127.0.0.1:3000/avatar_uploads/${file.filename}`;
+    const path = `${baseUrl}:3000/avatar_uploads/${file.filename}`;
     return userModel.update({ avatar: path }, { id });
   },
   updateUser: async ({ id, username, password, fullname, role, gender, phone }) => {
@@ -30,12 +31,15 @@ const userService = {
   findByUsername: async ({ username }) => {
     return userModel.queryOneByUsername([username]);
   },
+  findByDepartment_id: async ({ department_id }) => {
+    return userModel.queryOneByDepartment_id([department_id]);
+  },
   login: async ({ username, password }) => {
     return userModel.query({ username, password });
   },
-  findAll: async ({ fullname, role, gender, pagenum, pagesize }) => {
+  findAll: async ({ fullname, role, gender, name, pagenum, pagesize }) => {
     pagenum = (pagenum - 1) * pagesize;
-    return userModel.queryAll([fullname, role, gender, pagenum, pagesize]);
+    return userModel.queryAll([fullname, role, gender, name, pagenum, pagesize]);
   }
 };
 

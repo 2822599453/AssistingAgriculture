@@ -27,13 +27,18 @@ const userModel = {
     let sql = 'select * from user where username = ?';
     return db(sql, value);
   },
+  queryOneByDepartment_id: async (value) => {
+    let sql = 'select * from user where department_id = ?';
+    return db(sql, value);
+  },
   queryAll: async (value) => {
     let sql = `
-        set @fullname = ?;
-        set @role = ?;
-        set @gender = ?;
-        select * from user where (fullname = @fullname or @fullname = '') and (role = @role or @role = '') and (gender = @gender or @gender = '') limit ?,?
-      `;
+    set @fullname = ?;
+    set @role = ?;
+    set @gender = ?;
+    set @name = ?;
+    select user.*, department.name as department_name from user join department on user.department_id = department.id where (fullname like concat('%', @fullname, '%') or @fullname = '') and (role = @role or @role = '') and (gender = @gender or @gender = '') and (name like concat('%', @name, '%') or @name = '') limit ?, ?
+  `;
     return db(sql, value);
   }
 };

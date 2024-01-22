@@ -2,7 +2,6 @@ const articleService = require('../../service/admin/articleService');
 
 const articleController = {
   getArticleList: async (req, res) => {
-    
     const result1 = await articleService.findAll(req.body);
     if (result1.length === 0) {
       return res.status(404).send({
@@ -18,8 +17,24 @@ const articleController = {
       code: 0,
       message: '获取文章列表',
       total: allArticle.length
+    
     });
   },
+  addArticle:async (req, res) => {
+    console.log(req.body)
+    const result = await articleService.add(req.body, req.file);
+    if (result.length === 0) {
+      return res.status(400).send({
+        code: -1,
+        message: '出错了，请联系管理员'
+      });
+    }
+    res.send({
+      code: 0,
+      message: '新增文章',
+    });
+  },
+
   getCategoryList: async (req, res) => {
     const result = await articleService.findAll(req.body);
     if (result.length === 0) {
@@ -38,7 +53,6 @@ const articleController = {
     });
   },
   getSecondCategory: async (req, res) => {
-    console.log(req.query)
     const result = await articleService.find(req.query);
     if (result.length === 0) {
       return res.status(404).send({

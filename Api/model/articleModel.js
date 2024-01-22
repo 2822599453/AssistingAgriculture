@@ -3,7 +3,7 @@ const db = require('../utils/db');
 const articleModel = {
   insert: async (value) => {
     let sql =
-      'insert into article_category(level, level_name, parent_id, parent_name) values(?, ?, ?, ?)';
+      'insert into article(category_id, category_name, title, content, cover, is_publish, edit_time, department_id) values(?, ?, ?, ?, ?, ?, ?, ?)';
     return db(sql, value);
   },
   delete: async (value) => {
@@ -30,7 +30,8 @@ const articleModel = {
     let sql = `
         set @category_id = ?;
         set @is_publish = ?;
-        select * from article where (category_id = @category_id or @category_id = '') and (is_publish = @is_publish or @is_publish = '') limit ?,?
+        set @name = ?;
+        select article.*, department.name as department_name from article join department on article.department_id = department.id where (category_id = @category_id or @category_id = '') and (is_publish = @is_publish or @is_publish = '') and (name like concat('%', @name, '%') or @name = '') limit ?,?
       `;
     return db(sql, value);
   }

@@ -16,13 +16,12 @@ const upload = multer({ storage: storage });
 /* 文章分类 */
 articleRouter.post('/article/add',upload.single('cover'), articleController.addArticle);
 
-articleRouter.delete('/article/category/delete', articleController.deleteCategory);
+articleRouter.delete('/article/delete', articleController.deleteArticle);
 
-articleRouter.post('/article/category/update', articleController.updateCategory);
+articleRouter.post('/article/update',upload.single('cover'), articleController.updateArticle);
 
 articleRouter.post('/articles', articleController.getArticleList);
-articleRouter.get('/article/category/first', articleController.getFirstCategory);
-articleRouter.get('/article/category/second', articleController.getSecondCategory);
+articleRouter.post('/article/detail', articleController.getArticleDetail);
 
 /* 文章管理 */
 

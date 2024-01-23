@@ -42,16 +42,12 @@ const router = createRouter({
           component: () => import('@/views/three-agriculture/ThreeAgriculture.vue')
         },
         {
-          path: '/three-agriculture/market-price',
-          component: () => import('@/views/three-agriculture/MarketPrice.vue')
+          path: '/history',
+          component: () => import('@/views/history/History.vue')
         },
         {
-          path: '/three-agriculture/product-demands',
-          component: () => import('@/views/three-agriculture/ProductDemands.vue')
-        },
-        {
-          path: '/three-agriculture/technology-service',
-          component: () => import('@/views/three-agriculture/TechnologyService.vue')
+          path: '/government-data/statistics',
+          component: () => import('@/views/government-data/Statistics.vue')
         },
       ]
     }

@@ -4,7 +4,7 @@
       <el-button type="primary" @click="addCategory">添加职能部门</el-button>
     </template>
 
-    <el-form inline>
+    <el-form inline @submit.native.prevent>
       <el-form-item label="部门名称:">
         <el-input
           v-model="searchValue.name"

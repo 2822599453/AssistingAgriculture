@@ -52,6 +52,14 @@
           <el-icon> <Management /> </el-icon>
           <span>三农服务</span>
         </el-menu-item>
+        <el-menu-item index="/history">
+          <el-icon> <Management /> </el-icon>
+          <span>历史沿革</span>
+        </el-menu-item>
+        <el-menu-item index="/government-data/statistics">
+          <el-icon> <Management /> </el-icon>
+          <span>政府数据</span>
+        </el-menu-item>
         <!-- <el-menu-item>
           <el-icon> <Management /> </el-icon>
           <span>首页</span>

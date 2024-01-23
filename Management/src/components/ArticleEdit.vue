@@ -54,7 +54,7 @@ import { ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import {addArticleService} from '@/api/article'
+import {addArticleService, getArticleDetailService, updateArticleService} from '@/api/article'
 import { baseURL } from '@/utils/request';
 import axios from 'axios';
 import { formatTime } from '@/utils/format.js';
@@ -104,13 +104,14 @@ const onPublish = async (is_publish) => {
   for (let key in formData.value) {
     fd.append(key, formData.value[key]);
   }
-  console.log(formData.value)
+  
   if (formData.value.id) {
     // 编辑操作
-    // await artEditService(fd)
+    console.log(formData.value)
+    await updateArticleService(fd)
     ElMessage.success('修改成功');
-    // visibleDrawer.value = false;
-    // emit('success', 'edit');
+    visibleDrawer.value = false;
+    emit('success', 'edit');
   } else {
     // 添加操作
     await addArticleService(fd)
@@ -126,13 +127,15 @@ const onPublish = async (is_publish) => {
 // open调用后，可以打开抽屉
 const editorRef = ref();
 const open = async (row) => {
+  console.log(row)
   visibleDrawer.value = true;
   if (row.id) {
-    // const res = await artGetDetailService(row.id)
+    const res = await getArticleDetailService(row.id)
     formData.value = res.data.data;
-    imgUrl.value = baseURL + formData.value.cover_img;
-    const file = await imageUrlToFileObject(imgUrl.value, formData.value.cover_img);
-    formData.value.cover_img = file;
+    console.log(formData.value)
+    imgUrl.value = formData.value.cover;
+    // const file = await imageUrlToFileObject(imgUrl.value, formData.value.cover_img);
+    // formData.value.cover = file;
   } else {
     // 重置数据
     formData.value = { ...defaultForm };

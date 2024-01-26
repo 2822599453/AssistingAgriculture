@@ -110,7 +110,7 @@ onMounted(() => {
 const articleList = ref([]);
 const category = ref([]);
 const getCategory = async () => {
-  const res = await getSecondCategoryService('7');
+  const res = await getSecondCategoryService(flag['history']);
   category.value = res.data.data;
 };
 const getArticleList = async () => {

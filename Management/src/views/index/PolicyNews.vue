@@ -17,7 +17,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="来源:">
-          <el-input
+        <el-input
           v-model="searchValue.name"
           class="w-50 m-2"
           placeholder="请输入"
@@ -42,7 +42,9 @@
       <el-table-column label="分类" prop="category_name"></el-table-column>
       <el-table-column label="文章标题" prop="title">
         <template #default="{ row }">
-          <el-link type="primary" :underline="false" @click="onArticleShow(row)">{{ row.title }}</el-link>
+          <el-link type="primary" :underline="false" @click="onArticleShow(row)">{{
+            row.title
+          }}</el-link>
         </template>
       </el-table-column>
       <el-table-column label="来源" prop="department_name"></el-table-column>
@@ -59,7 +61,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" >
+      <el-table-column label="操作">
         <template #default="{ row }">
           <el-button circle type="primary" :icon="Edit" @click="onEditArticle(row)"></el-button>
           <el-button circle type="danger" :icon="Delete" @click="onDeleteArticle(row)"></el-button>
@@ -89,10 +91,13 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import { Delete, Edit, Search } from '@element-plus/icons-vue';
-import { getSecondCategoryService, getArticleListService, deleteArticleService } from '@/api/article.js';
+import {
+  getSecondCategoryService,
+  getArticleListService,
+  deleteArticleService
+} from '@/api/article.js';
 import { formatTime } from '@/utils/format.js';
 import { flag } from '@/utils/article_flag.js';
-
 
 const total = ref(0); // 总条数
 const loading = ref(false); // loading状态
@@ -105,7 +110,7 @@ onMounted(() => {
 const articleList = ref([]);
 const category = ref([]);
 const getCategory = async () => {
-  const res = await getSecondCategoryService(flag['threeAgriculture']);
+  const res = await getSecondCategoryService(flag['index']);
   category.value = res.data.data;
 };
 const getArticleList = async () => {
@@ -123,7 +128,7 @@ const searchValue = reactive({
   category_id: '',
   is_publish: '',
   name: '',
-  flag: flag['threeAgriculture']
+  flag: flag['index']
 });
 const onSearch = () => {
   searchValue.pagenum = 1; // 重置页面
@@ -156,8 +161,8 @@ const onCurrentChange = (page) => {
 
 const articleShowRef = ref();
 const onArticleShow = (row) => {
-  articleShowRef.value.open(row)
-}
+  articleShowRef.value.open(row);
+};
 
 /* 文章新增或编辑 */
 const articleEditRef = ref();
@@ -194,8 +199,6 @@ const onDeleteArticle = async (row) => {
   // 重新渲染列表
   getArticleList();
 };
-
-
 </script>
 
 <style lang="scss" scoped></style>

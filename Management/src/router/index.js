@@ -14,6 +14,54 @@ const router = createRouter({
       redirect: '/user/manage',
       children: [
         {
+          path: '/index/policy-news',
+          component: () => import('@/views/index/PolicyNews.vue')
+        },
+        {
+          path: '/news',
+          component: () => import('@/views/news/News.vue')
+        },
+        {
+          path: '/open-government',
+          component: () => import('@/views/open-government/OpenGovernment.vue')
+        },
+        {
+          path: '/travel-service/article',
+          component: () => import('@/views/travel-service/TravelArticle.vue')
+        },
+        {
+          path: '/work-service/farmer',
+          component: () => import('@/views/work-service/Farmer.vue')
+        },
+        {
+          path: '/government-data/statistics',
+          component: () => import('@/views/government-data/Statistics.vue')
+        },
+        {
+          path: '/government-data/economy',
+          component: () => import('@/views/government-data/Economy.vue')
+        },
+        {
+          path: '/government-data/population',
+          component: () => import('@/views/government-data/Population.vue')
+        },
+        {
+          path: '/government-data/city',
+          component: () => import('@/views/government-data/City.vue')
+        },
+        {
+          path: '/government-data/echart',
+          component: () => import('@/views/government-data/Echart.vue')
+        },
+        {
+          path: '/history',
+          component: () => import('@/views/history/History.vue')
+        },
+        {
+          path: '/three-agriculture',
+          component: () => import('@/views/three-agriculture/ThreeAgriculture.vue')
+        },
+        {
           path: '/user/manage',
           component: () => import('@/views/user/UserManagement.vue')
         },
@@ -37,18 +85,14 @@ const router = createRouter({
           path: '/article/category',
           component: () => import('@/views/article/ArticleCategory.vue')
         },
-        {
-          path: '/three-agriculture',
-          component: () => import('@/views/three-agriculture/ThreeAgriculture.vue')
-        },
-        {
-          path: '/history',
-          component: () => import('@/views/history/History.vue')
-        },
-        {
-          path: '/government-data/statistics',
-          component: () => import('@/views/government-data/Statistics.vue')
-        },
+        
+        
+        
+        
+        
+        
+        
+        
       ]
     }
   ]

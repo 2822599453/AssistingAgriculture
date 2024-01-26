@@ -10,6 +10,12 @@
 */
 
 export const flag = {
+  index: 1,
+  news: 2,
+  openGovernment: 3,
+  travelService: 4,
+  workService: 5,
+  governmentData: 6,
   history: 7,
   threeAgriculture: 8
 }

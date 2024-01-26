@@ -78,6 +78,7 @@ const userController = {
         message: '找不到该用户'
       });
     }
+    console.log(req.body)
     const result = await userService.updateUser(req.body);
     if (result.length === 0) {
       return res.send({

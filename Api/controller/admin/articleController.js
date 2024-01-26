@@ -10,8 +10,6 @@ const articleController = {
       });
     }
     const result2 = await articleService.findAll({...req.body, pagenum: 1, pagesize: 1000})
-    console.log(result2)
-    console.log(req.body)
     const articleList = result1[Object.keys(req.body).length-3]
     const allArticle = result2[Object.keys(req.body).length-3]
     res.send({

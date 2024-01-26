@@ -7,9 +7,12 @@
   </div>
 </template>
 <script setup>
-import { useRoute, useRouter } from 'vue-router';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 </script>
 
-<style scoped></style>
+<style>
+.el-table tr {
+  height: 60px;
+}
+</style>

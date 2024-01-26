@@ -12,30 +12,11 @@
       label-width="100px"
       style="padding-right: 30px"
     >
-      <el-form-item label="用户名" prop="username">
-        <el-input v-model="formData.username" placeholder="请输入用户名"></el-input>
+      <el-form-item label="姓名" prop="name">
+        <el-input v-model="formData.name" placeholder="请输入姓名"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="formData.password" placeholder="请输入密码"></el-input>
-      </el-form-item>
-      <el-form-item label="姓名" prop="fullname">
-        <el-input v-model="formData.fullname" placeholder="请输入姓名"></el-input>
-      </el-form-item>
-      <el-form-item label="职能部门" prop="department_id">
-        <el-select v-model="formData.department_id" filterable placeholder="请选择职能部门">
-          <el-option
-            v-for="item in departmentList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="角色" required>
-        <el-radio-group v-model="formData.role" class="ml-4">
-          <el-radio label="1">管理员</el-radio>
-          <el-radio label="2">普通用户</el-radio>
-        </el-radio-group>
+      <el-form-item label="身份证号" prop="ID_card">
+        <el-input v-model="formData.ID_card" placeholder="请输入身份证号"></el-input>
       </el-form-item>
       <el-form-item label="性别" required>
         <el-radio-group v-model="formData.gender" class="ml-4">
@@ -43,8 +24,11 @@
           <el-radio label="1">女</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="电话" prop="phone">
-        <el-input v-model="formData.phone" placeholder="电话"></el-input>
+      <el-form-item label="手机号" prop="phone">
+        <el-input v-model="formData.phone" placeholder="请输入手机号"></el-input>
+      </el-form-item>
+      <el-form-item label="地址" prop="address">
+        <el-input v-model="formData.address" placeholder="请输入地址"></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -58,38 +42,23 @@
 
 <script setup>
 import { ref } from 'vue';
-import { updateUserService, addUserService } from '@/api/user.js';
-import { getDepartmentListService } from '@/api/department';
+import { updateFarmerService, addFarmerService } from '@/api/work_service.js';
 
 const dialogVisible = ref(false);
 const formRef = ref();
 const formData = ref({
-  username: '',
-  password: '',
-  fullname: '',
-  role: '2',
+  name: '',
+  ID_card: '',
   gender: '0',
   phone: '',
-  department_id: ''
+  address: ''
 });
 const rules = {
-  username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 10, message: '用户名必须是 3-10位 的字符', trigger: 'blur' }
-  ],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    {
-      pattern: /^\S{6,15}$/,
-      message: '密码必须是 6-15位 的非空字符',
-      trigger: 'blur'
-    }
-  ],
-  fullname: [
+  name: [
     { required: true, message: '请输入姓名', trigger: 'blur' },
     { min: 2, max: 10, message: '姓名必须是 2-10位 的字符', trigger: 'blur' }
   ],
-  department: [{ required: true, message: '请选择职能部门', trigger: 'blur' }],
+  address: [{ required: true, message: '请输入地址', trigger: 'blur' }],
   phone: [
     { required: true, message: '请输入用户电话', trigger: 'blur' },
     {
@@ -97,31 +66,31 @@ const rules = {
       message: '请输入正确的手机号',
       trigger: ['blur', 'change']
     }
+  ],
+  ID_card: [
+    { required: true, message: '请输入身份证号', trigger: 'blur' },
+    {
+      pattern: /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9xX]$/,
+      message: '请输入正确的身份证号',
+      trigger: ['blur', 'change']
+    }
   ]
-};
-
-/* 获取职能部门列表 */
-const departmentList = ref([]);
-const getDepartmentList = async () => {
-  const res = await getDepartmentListService({ name: '' });
-  departmentList.value = res.data.data;
-  console.log('departmentList', res);
 };
 
 /* 提交 */
 const emit = defineEmits(['success']);
 const onSubmit = async () => {
-  console.log(formData.value)
+  console.log(formData.value);
   await formRef.value
     .validate()
     .then(async () => {
       const isEdit = formData.value.id;
-      console.log(formData.value)
+      console.log(formData.value);
       if (isEdit) {
-        await updateUserService(formData.value);
+        await updateFarmerService(formData.value);
         ElMessage.success('编辑成功');
       } else {
-        await addUserService(formData.value);
+        await addFarmerService(formData.value);
         ElMessage.success('添加成功');
       }
       dialogVisible.value = false;
@@ -138,17 +107,14 @@ const onClose = () => {
 // open({ id, cate_name, ... })  => 表单需要渲染，说明是编辑
 // open调用后，可以打开弹窗
 const open = (row) => {
-  getDepartmentList();
   dialogVisible.value = true;
   if (Object.keys(row).length === 0) {
     formData.value = {
-      username: '',
-      password: '',
-      fullname: '',
-      role: '2',
+      name: '',
+      ID_card: '',
       gender: '0',
       phone: '',
-      department_id: ''
+      address: ''
     };
   } else {
     formData.value = { ...row }; // 添加 → 重置了表单内容，编辑 → 存储了需要回显的数据

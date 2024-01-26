@@ -2,12 +2,12 @@ const userModel = require('../../model/userModel');
 const baseUrl = require('../../utils/config')
 
 const userService = {
-  add: async ({ username, password, role, gender, phone, fullname }) => {
+  add: async ({ username, password, role, gender, phone, fullname, department_id }) => {
     let arr = await userModel.queryOneByUsername([username]);
     if (arr.length > 0) {
       return [];
     }
-    return userModel.insert([username, password, fullname, role, gender, phone]);
+    return userModel.insert([username, password, fullname, role, gender, phone, department_id]);
   },
   
   remove: async ({ id }) => {
@@ -21,8 +21,8 @@ const userService = {
     const path = `${baseUrl}:3000/avatar_uploads/${file.filename}`;
     return userModel.update({ avatar: path }, { id });
   },
-  updateUser: async ({ id, username, password, fullname, role, gender, phone }) => {
-    return userModel.update({ username, password, fullname, role, gender, phone }, { id });
+  updateUser: async ({ id, username, password, fullname, role, gender, phone, department_id }) => {
+    return userModel.update({ username, password, fullname, role, gender, phone, department_id }, { id });
   },
 
   find: async ({ username, password }) => {

@@ -54,10 +54,10 @@ const formData = ref({
   level_name: ''
 });
 const rules = {
-  // firstCategory: [{ required: true, message: '请输入分类名称', trigger: 'blur' }],
-  cate_alias: [
+  parent_name: [{ required: true, message: '请选择一级分类', trigger: 'blur' }],
+  level_name: [
     { required: true, message: '请输入分类名称', trigger: 'blur' },
-    { min: 1, max: 10, message: '必须是 3-10位 的字符', trigger: 'blur' }
+    { min: 1, max: 10, message: '必须是 1-10位 的字符', trigger: 'blur' }
   ]
 };
 

@@ -110,7 +110,7 @@ onMounted(() => {
 const articleList = ref([]);
 const category = ref([]);
 const getCategory = async () => {
-  const res = await getSecondCategoryService('7');
+  const res = await getSecondCategoryService(flag['governmentData']);
   category.value = res.data.data;
 };
 const getArticleList = async () => {
@@ -128,7 +128,7 @@ const searchValue = reactive({
   category_id: '',
   is_publish: '',
   name: '',
-  flag: flag['history']
+  flag: flag['governmentData']
 });
 const onSearch = () => {
   searchValue.pagenum = 1; // 重置页面

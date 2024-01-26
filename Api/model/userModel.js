@@ -4,7 +4,7 @@ const transform = require('../utils/transform');
 const userModel = {
   insert: async (value) => {
     let sql =
-      'insert into user(username, password, fullname, role, gender, phone) values(?, ?, ?, ?, ?, ?)';
+      'insert into user(username, password, fullname, role, gender, phone, department_id) values(?, ?, ?, ?, ?, ?, ?)';
     return db(sql, value);
   },
   delete: async (value) => {

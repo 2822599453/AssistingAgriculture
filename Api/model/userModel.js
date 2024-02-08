@@ -24,7 +24,7 @@ const userModel = {
     return db(sql, value);
   },
   queryOneByUsername: async (value) => {
-    let sql = 'select * from user where username = ?';
+    let sql = 'select user.*, department.name as department_name from user join department on user.department_id = department.id where username = ?';
     return db(sql, value);
   },
   queryOneByDepartment_id: async (value) => {

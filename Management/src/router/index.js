@@ -14,8 +14,12 @@ const router = createRouter({
       redirect: '/user/manage',
       children: [
         {
-          path: '/index/policy-news',
-          component: () => import('@/views/index/PolicyNews.vue')
+          path: '/index',
+          component: () => import('@/views/index/Index.vue')
+        },
+        {
+          path: '/home-page/policy-news',
+          component: () => import('@/views/home-page/PolicyNews.vue')
         },
         {
           path: '/news',
@@ -32,6 +36,10 @@ const router = createRouter({
         {
           path: '/work-service/farmer',
           component: () => import('@/views/work-service/Farmer.vue')
+        },
+        {
+          path: '/work-service/store',
+          component: () => import('@/views/work-service/Store.vue')
         },
         {
           path: '/government-data/statistics',

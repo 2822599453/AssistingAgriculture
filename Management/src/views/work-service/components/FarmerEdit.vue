@@ -2,7 +2,7 @@
   <el-dialog
     v-model="dialogVisible"
     @close="onClose"
-    :title="formData.id ? '编辑分类' : '添加分类'"
+    :title="formData.id ? '编辑农户' : '添加农户'"
     width="30%"
   >
     <el-form

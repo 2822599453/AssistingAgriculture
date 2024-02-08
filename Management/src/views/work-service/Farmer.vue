@@ -1,7 +1,7 @@
 <template>
   <page-container title="农户管理">
     <template #extra>
-      <el-button type="primary" @click="addUser">添加用户</el-button>
+      <el-button type="primary" @click="addUser">添加农户</el-button>
     </template>
 
     <el-form inline>

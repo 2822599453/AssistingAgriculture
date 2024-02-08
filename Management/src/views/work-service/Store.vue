@@ -1,27 +1,33 @@
 <template>
-  <page-container title="农户管理">
+  <page-container title="商户管理">
     <template #extra>
-      <el-button type="primary" @click="addUser">添加用户</el-button>
+      <el-button type="primary" @click="addUser">添加商户</el-button>
     </template>
 
     <el-form inline>
-      <el-form-item label="姓名:">
+      <el-form-item label="商户名称:">
         <el-input
-          v-model="searchValue.name"
+          v-model="searchValue.store_name"
           class="w-50 m-2"
           placeholder="请输入"
           :prefix-icon="Search"
-          style="width: 190px;"
+          style="width: 190px"
         />
       </el-form-item>
-      <el-form-item label="身份证:">
+      <el-form-item label="统一信用代码:">
         <el-input
-          v-model="searchValue.ID_card"
+          v-model="searchValue.code"
           class="w-50 m-2"
           placeholder="请输入"
           :prefix-icon="Search"
-          style="width: 190px;"
+          style="width: 190px"
         />
+      </el-form-item>
+      <el-form-item label="经营范围:">
+        <el-select v-model="searchValue.business_line" style="width: 190px;">
+          <el-option label="餐饮" value="1"></el-option>
+          <el-option label="住宿" value="2"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button @click="onSearch" type="primary">搜索</el-button>
@@ -31,16 +37,16 @@
 
     <el-table v-loading="loading" :data="farmerList" style="width: 100%" height="400">
       <el-table-column type="index" :index="indexShow" label="序号" width="100"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="150"></el-table-column>
-      <el-table-column prop="gender" label="性别" width="150">
+      <el-table-column prop="store_name" label="商户名称" width="150"></el-table-column>
+      <el-table-column prop="superintendent" label="法人" width="150"></el-table-column>
+      <el-table-column prop="business_line" label="经营范围" width="150">
         <template #default="{ row }">
-          <el-tag :type="row.gender === '0' ? '' : 'danger'">{{
-            row.gender === '0' ? '男' : '女'
+          <el-tag :type="row.business_line === '1' ? '' : 'warning'">{{
+            row.business_line === '1' ? '餐饮' : '住宿'
           }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="ID_card" label="身份证号"></el-table-column>
-      <el-table-column prop="phone" label="电话"></el-table-column>
+      <el-table-column prop="code" label="社会信用代码"></el-table-column>
       <el-table-column prop="address" label="地址"></el-table-column>
       <el-table-column label="操作" width="150">
         <!-- row 就是 farmerList 的一项， $index 下标 -->
@@ -54,7 +60,7 @@
       </template>
     </el-table>
 
-    <farmer-edit ref="dialog" @success="onSuccess"></farmer-edit>
+    <store-edit ref="dialog" @success="onSuccess"></store-edit>
     <!-- 分页区域 -->
     <el-pagination
       v-model:current-page="searchValue.pagenum"
@@ -67,26 +73,26 @@
       @current-change="onCurrentChange"
       style="margin-top: 20px; justify-content: flex-end"
     />
-  </page-container> 
+  </page-container>
 </template>
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
-import { getFarmerListService, deleteFarmerService } from '@/api/work_service';
+import { getStoreListService, deleteStoreService } from '@/api/work_service';
 import { Edit, Delete, Search } from '@element-plus/icons-vue';
-import FarmerEdit from './components/FarmerEdit.vue';
+import StoreEdit from './components/StoreEdit.vue';
 const total = ref(0); // 总条数
 const loading = ref(false);
 const dialog = ref();
 
 /* 获取数据 */
 onMounted(() => {
-  getFarmerList();
+  getStoreList();
 });
 const farmerList = ref([]);
-const getFarmerList = async () => {
+const getStoreList = async () => {
   loading.value = true;
-  const res = await getFarmerListService(searchValue);
+  const res = await getStoreListService(searchValue);
   farmerList.value = res.data.data;
   total.value = res.data.total;
   loading.value = false;
@@ -100,19 +106,21 @@ const indexShow = (index) => {
 
 /* 搜索 */
 const searchValue = reactive({
-  name: '',
-  ID_card: '',
+  store_name: '',
+  business_line: '',
+  code: '',
   pagenum: 1, // 当前页
   pagesize: 5 // 当前生效的每页条数
 });
 const onSearch = () => {
   console.log(searchValue);
-  getFarmerList();
+  getStoreList();
 };
 const onReset = () => {
-  searchValue.ID_card = '';
-  searchValue.name = ''
-  getFarmerList();
+  searchValue.store_name = '';
+  searchValue.business_line = '';
+  searchValue.code = '';
+  getStoreList();
 };
 // 编辑
 const onEdit = (row) => {
@@ -123,7 +131,7 @@ const addUser = () => {
   dialog.value.open({});
 };
 const onSuccess = () => {
-  getFarmerList();
+  getStoreList();
 };
 // 删除
 const onDelete = (row) => {
@@ -133,9 +141,9 @@ const onDelete = (row) => {
     cancelButtonText: '取消'
   })
     .then(async () => {
-      await deleteFarmerService(row.id);
+      await deleteStoreService(row.id);
       ElMessage.success('删除成功');
-      getFarmerList();
+      getStoreList();
     })
     .catch(() => {});
 };
@@ -148,14 +156,14 @@ const onSizeChange = (size) => {
   searchValue.pagenum = 1;
   searchValue.pagesize = size;
   // 基于最新的当前页 和 每页条数，渲染数据
-  getFarmerList();
+  getStoreList();
 };
 const onCurrentChange = (page) => {
   console.log(page);
   // 更新当前页
   searchValue.pagenum = page;
   // 基于最新的当前页，渲染数据
-  getFarmerList();
+  getStoreList();
 };
 </script>
 

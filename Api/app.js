@@ -13,6 +13,8 @@ var categoryRouter = require('./routes/admin/categoryRouter');
 var articleRouter = require('./routes/admin/articleRouter');
 var departmentRouter = require('./routes/admin/departmentRouter');
 var farmerRouter = require('./routes/admin/farmerRouter');
+var storeRouter = require('./routes/admin/storeRouter');
+var gdpRouter = require('./routes/admin/gdpRouter');
 
 var app = express();
 
@@ -63,6 +65,8 @@ app.use('/web', categoryRouter);
 app.use('/web', articleRouter);
 app.use('/web', departmentRouter);
 app.use('/web', farmerRouter);
+app.use('/web', storeRouter);
+app.use('/web', gdpRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

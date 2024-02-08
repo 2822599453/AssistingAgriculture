@@ -3,19 +3,22 @@
     <el-aside width="200px" class="aside">
       <div class="el-aside__logo"></div>
       <el-menu :default-active="$route.path" router unique-opened>
-        <el-sub-menu index="/index">
+        <el-menu-item index="/index">
+          <el-icon size="19"> <HomeFilled /> </el-icon>
+          <span>首页</span>
+        </el-menu-item>
+        <el-sub-menu index="/home-page">
           <template #title>
             <el-icon size="19"> <HomeFilled /> </el-icon>
-            <span>首页</span>
+            <span>前台主页</span>
           </template>
-          <el-menu-item index="/index/policy-news">
+          <el-menu-item index="/home-page/policy-news">
             <el-icon>
               <User />
             </el-icon>
             <span>政策要闻</span>
           </el-menu-item>
         </el-sub-menu>
-
         <el-menu-item index="/news">
           <el-icon> <el-image :src="news" fit="contain"></el-image> </el-icon>
           <span>新闻动态</span>
@@ -46,6 +49,12 @@
               <User />
             </el-icon>
             <span>农户基本资料</span>
+          </el-menu-item>
+          <el-menu-item index="/work-service/store">
+            <el-icon>
+              <User />
+            </el-icon>
+            <span>商户基本资料</span>
           </el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="/government-data">

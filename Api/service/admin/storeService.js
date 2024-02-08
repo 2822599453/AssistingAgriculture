@@ -1,24 +1,24 @@
 
 
-const farmerModel = require('../../model/farmerModel');
+const storeModel = require('../../model/storeModel');
 
-const farmerService = {
-  add: async ({ name, gender, ID_card, phone, address }) => {
-    return farmerModel.insert([name, gender, ID_card, phone, address]);
+const storeService = {
+  add: async ({ store_name, superintendent, business_line, address, code }) => {
+    return storeModel.insert([store_name, superintendent, business_line, address, code]);
   },
   remove: async ({ id }) => {
-    return farmerModel.delete([id]);
+    return storeModel.delete([id]);
   },
-  update: async ({ name, gender, ID_card, phone, address, id}) => {
-    return farmerModel.update([name, gender, ID_card, phone, address, id]);
+  update: async ({ store_name, superintendent, business_line, address, code, id}) => {
+    return storeModel.update([store_name, superintendent, business_line, address, code, id]);
   },
-  find: async ({ ID_card }) => {
-    return farmerModel.query([ID_card]);
+  find: async ({ code }) => {
+    return storeModel.query([code]);
   },
-  findAll: async ({ name, ID_card, pagenum, pagesize }) => {
+  findAll: async ({ store_name, business_line, code, pagenum, pagesize }) => {
     pagenum = (pagenum - 1) * pagesize;
-    return farmerModel.queryAll([name, ID_card, pagenum, pagesize]);
+    return storeModel.queryAll([store_name, business_line, code, pagenum, pagesize]);
   }
 };
 
-module.exports = farmerService;
+module.exports = storeService;

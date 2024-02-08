@@ -2,7 +2,7 @@
   <el-dialog
     v-model="dialogVisible"
     @close="onClose"
-    :title="formData.id ? '编辑分类' : '添加分类'"
+    :title="formData.id ? '编辑用户' : '添加用户'"
     width="30%"
   >
     <el-form
@@ -21,7 +21,7 @@
       <el-form-item label="姓名" prop="fullname">
         <el-input v-model="formData.fullname" placeholder="请输入姓名"></el-input>
       </el-form-item>
-      <el-form-item label="职能部门" prop="department_id">
+      <el-form-item label="职能部门" prop="department">
         <el-select v-model="formData.department_id" filterable placeholder="请选择职能部门">
           <el-option
             v-for="item in departmentList"
@@ -151,6 +151,7 @@ const open = (row) => {
       department_id: ''
     };
   } else {
+    console.log(row)
     formData.value = { ...row }; // 添加 → 重置了表单内容，编辑 → 存储了需要回显的数据
   }
 };

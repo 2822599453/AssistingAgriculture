@@ -15,6 +15,7 @@ var departmentRouter = require('./routes/admin/departmentRouter');
 var farmerRouter = require('./routes/admin/farmerRouter');
 var storeRouter = require('./routes/admin/storeRouter');
 var gdpRouter = require('./routes/admin/gdpRouter');
+var populationRouter = require('./routes/admin/populationRouter');
 
 var app = express();
 
@@ -67,6 +68,7 @@ app.use('/web', departmentRouter);
 app.use('/web', farmerRouter);
 app.use('/web', storeRouter);
 app.use('/web', gdpRouter);
+app.use('/web', populationRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,5 +1,5 @@
 <template>
-  <page-container title="文章管理">
+  <page-container title="历史沿革">
     <template #extra>
       <el-button type="primary" @click="onAddArticle">添加文章</el-button>
     </template>

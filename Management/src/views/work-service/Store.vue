@@ -1,7 +1,7 @@
 <template>
   <page-container title="商户管理">
     <template #extra>
-      <el-button type="primary" @click="addUser">添加商户</el-button>
+      <el-button type="primary" @click="addUser" disabled>添加商户</el-button>
     </template>
 
     <el-form inline>
@@ -24,19 +24,33 @@
         />
       </el-form-item>
       <el-form-item label="经营范围:">
-        <el-select v-model="searchValue.business_line" style="width: 190px;">
+        <el-select v-model="searchValue.business_line" style="width: 190px">
           <el-option label="餐饮" value="1"></el-option>
           <el-option label="住宿" value="2"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="状态:">
+        <el-select v-model="searchValue.state" style="width: 190px">
+          <el-option label="待审核" value="0"></el-option>
+          <el-option label="审核通过" value="1"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-button @click="onSearch" type="primary">搜索</el-button>
         <el-button @click="onReset">重置</el-button>
+        <el-button @click="onProcess" color="#f3812f" style="color: #fff;" :disabled="!isSelected || !flag">审核通过</el-button>
+        <el-button @click="onReturn" color="#f3812f" style="color: #fff;" :disabled="!isSelected || flag">打回</el-button>
       </el-form-item>
     </el-form>
 
-    <el-table v-loading="loading" :data="farmerList" style="width: 100%" height="400">
-      <el-table-column type="index" :index="indexShow" label="序号" width="100"></el-table-column>
+    <el-table
+      v-loading="loading"
+      :data="farmerList"
+      style="width: 100%"
+      highlight-current-row
+      height="400"
+      @row-click="handleRowClick"
+    >
       <el-table-column prop="store_name" label="商户名称" width="150"></el-table-column>
       <el-table-column prop="superintendent" label="法人" width="150"></el-table-column>
       <el-table-column prop="business_line" label="经营范围" width="150">
@@ -46,13 +60,19 @@
           }}</el-tag>
         </template>
       </el-table-column>
+      <el-table-column prop="state" label="状态" width="150">
+        <template #default="{ row }">
+          <el-tag :type="row.state === '0' ? 'info' : 'success'">{{
+            row.state === '0' ? '待审核' : '审核通过'
+          }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="code" label="社会信用代码"></el-table-column>
       <el-table-column prop="address" label="地址"></el-table-column>
       <el-table-column label="操作" width="150">
-        <!-- row 就是 farmerList 的一项， $index 下标 -->
         <template #default="{ row, $index }">
-          <el-button :icon="Edit" circle type="primary" @click="onEdit(row, $index)"></el-button>
-          <el-button :icon="Delete" circle type="danger" @click="onDelete(row, $index)"></el-button>
+          <el-button :icon="Edit" circle type="primary" disabled @click="onEdit(row, $index)"></el-button>
+          <el-button :icon="Delete" circle type="danger" disabled @click="onDelete(row, $index)"></el-button>
         </template>
       </el-table-column>
       <template #empty>
@@ -78,7 +98,7 @@
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
-import { getStoreListService, deleteStoreService } from '@/api/work_service';
+import { getStoreListService, deleteStoreService, updateStoreService } from '@/api/work_service';
 import { Edit, Delete, Search } from '@element-plus/icons-vue';
 import StoreEdit from './components/StoreEdit.vue';
 const total = ref(0); // 总条数
@@ -98,17 +118,12 @@ const getStoreList = async () => {
   loading.value = false;
 };
 
-/* 分页翻页之后序号会重新开始，要进行处理 */
-const indexShow = (index) => {
-  const { pagenum, pagesize } = searchValue;
-  return (pagenum - 1) * pagesize + index + 1;
-};
-
 /* 搜索 */
 const searchValue = reactive({
   store_name: '',
   business_line: '',
   code: '',
+  state: '',
   pagenum: 1, // 当前页
   pagesize: 5 // 当前生效的每页条数
 });
@@ -120,20 +135,22 @@ const onReset = () => {
   searchValue.store_name = '';
   searchValue.business_line = '';
   searchValue.code = '';
+  searchValue.state = '';
+  isSelected.value = false
   getStoreList();
 };
-// 编辑
+/* 编辑 */
 const onEdit = (row) => {
   dialog.value.open(row);
 };
-// 添加
+/* 添加 */
 const addUser = () => {
   dialog.value.open({});
 };
 const onSuccess = () => {
   getStoreList();
 };
-// 删除
+/* 删除 */
 const onDelete = (row) => {
   ElMessageBox.confirm('你确认要删除该用户吗', '温馨提示', {
     type: 'warning',
@@ -147,8 +164,47 @@ const onDelete = (row) => {
     })
     .catch(() => {});
 };
+/* 审核 */
+const flag = ref(true) // true:通过  false:打回 
+const isSelected = ref(false)
+const selectOption = ref()
+const onProcess = () => {
+  ElMessageBox.confirm('你确认审核通过该店铺吗', '温馨提示', {
+    type: 'warning',
+    confirmButtonText: '确认',
+    cancelButtonText: '取消'
+  })
+    .then(async () => {
+      await updateStoreService({...selectOption.value, state: '1'});
+      isSelected.value = false
+      getStoreList();
+    })
+    .catch(() => {});
+}
+const onReturn = () => {
+  ElMessageBox.confirm('你确认要打回该店铺吗', '温馨提示', {
+    type: 'warning',
+    confirmButtonText: '确认',
+    cancelButtonText: '取消'
+  })
+    .then(async () => {
+      await updateStoreService({...selectOption.value, state: '0'});
+      isSelected.value = false
+      getStoreList();
+    })
+    .catch(() => {});
+}
+const handleRowClick = (row) => {
+  selectOption.value = row
+  isSelected.value = true
+  if(row && row.state === '0') {
+    flag.value = true
+  } else {
+    flag.value = false
+  }
+}
 
-// 处理分页逻辑
+/* 处理分页逻辑 */
 const onSizeChange = (size) => {
   console.log('当前每页条数', size);
   // 只要是每页条数变化了，那么原本正在访问的当前页意义不大了，数据大概率已经不在原来那一页了

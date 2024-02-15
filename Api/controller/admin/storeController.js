@@ -52,7 +52,7 @@ const storeController = {
       message: '更新商户成功'
     });
   },
-  deleteFarmer: async (req, res) => {
+  deleteStore: async (req, res) => {
     const result = await storeService.remove(req.query);
     if (result.length === 0) {
       return res.status(404).send({

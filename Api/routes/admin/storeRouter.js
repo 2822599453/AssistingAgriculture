@@ -4,7 +4,7 @@ const storeController = require('../../controller/admin/storeController.js');
 
 storeRouter.post('/store/add', storeController.addStore);
 
-storeRouter.delete('/store/delete', storeController.deleteFarmer);
+storeRouter.delete('/store/delete', storeController.deleteStore);
 
 storeRouter.post('/store/update', storeController.updateStore);
 

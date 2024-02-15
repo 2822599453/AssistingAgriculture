@@ -1,5 +1,5 @@
 <template>
-  <page-container title="文章分类">
+  <page-container title="职能部门">
     <template #extra>
       <el-button type="primary" @click="addCategory">添加职能部门</el-button>
     </template>

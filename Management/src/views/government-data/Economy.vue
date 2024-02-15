@@ -9,7 +9,7 @@
       <el-form-item label="年份:">
         <el-date-picker v-model="searchValue.time" @change="timeChange" type="year" placeholder="请选择" />
       </el-form-item>
-      <el-form-item label="生产总值:">
+      <el-form-item label="产业类别:">
         <!-- 这里后台标记发布状态，就是通过中文标记的，已发布 / 草稿 -->
         <el-select v-model="searchValue.type">
           <el-option label="地区生产总值" value="0"></el-option>
@@ -26,6 +26,7 @@
 
     <!-- 表格区域 -->
     <el-table :data="gdpList" v-loading="loading" height="400">
+      <el-table-column type="index" :index="indexShow" label="序号" width="100"></el-table-column>
       <el-table-column label="年份" prop="time"> </el-table-column>
       <el-table-column label="产业类别" prop="type_text"> </el-table-column>
       <el-table-column label="生产总值(万元)" prop="total"></el-table-column>
@@ -136,6 +137,11 @@ const onCurrentChange = (page) => {
   searchValue.pagenum = page;
   // 基于最新的当前页，渲染数据
   getGdpList();
+};
+/* 分页翻页之后序号会重新开始，要进行处理 */
+const indexShow = (index) => {
+  const { pagenum, pagesize } = searchValue;
+  return (pagenum - 1) * pagesize + index + 1;
 };
 
 

@@ -10,7 +10,11 @@ const storeModel = {
     return db(sql, value);
   },
   update: async (value) => {
-    let sql = `update store set store_name = ?, superintendent = ?, business_line = ?, address = ?, code = ?  where id = ?`;
+    let sql = `update store set store_name = ?, superintendent = ?, business_line = ?, address = ?, code = ?, state = ?  where id = ?`;
+    return db(sql, value);
+  },
+  updateState: async (value) => {
+    let sql = `update store set state = ? where id = ?`;
     return db(sql, value);
   },
   query: async (value) => {
@@ -22,7 +26,8 @@ const storeModel = {
       set @store_name = ?;
       set @business_line = ?;
       set @code = ?;
-      select * from store where store_name like concat('%', @store_name, '%') and code like concat('%', @code, '%') and (business_line = @business_line or @business_line = '')  limit ?, ?
+      set @state = ?;
+      select * from store where store_name like concat('%', @store_name, '%') and code like concat('%', @code, '%') and (business_line = @business_line or @business_line = '') and (state = @state or @state = '')  limit ?, ?
     `;
     return db(sql, value);
   }
